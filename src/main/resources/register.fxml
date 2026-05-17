@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="securechat.ui.RegisterController"
+      alignment="CENTER" spacing="15"
+      style="-fx-background-color: #1e1e2e; -fx-padding: 40;">
+
+    <Label text="Create Account"
+           style="-fx-text-fill: #cdd6f4; -fx-font-size: 24;
+                  -fx-font-weight: bold;"/>
+
+    <VBox spacing="8" style="-fx-padding: 20 0 0 0;">
+        <TextField fx:id="usernameField"
+                   promptText="Choose a username"
+                   style="-fx-background-color: #313244; -fx-text-fill: white;
+                          -fx-prompt-text-fill: #6c7086; -fx-padding: 10;
+                          -fx-background-radius: 8; -fx-font-size: 14;"/>
+
+        <PasswordField fx:id="passwordField"
+                       promptText="Choose a password"
+                       style="-fx-background-color: #313244; -fx-text-fill: white;
+                              -fx-prompt-text-fill: #6c7086; -fx-padding: 10;
+                              -fx-background-radius: 8; -fx-font-size: 14;"/>
+
+        <PasswordField fx:id="confirmPasswordField"
+                       promptText="Confirm password"
+                       style="-fx-background-color: #313244; -fx-text-fill: white;
+                              -fx-prompt-text-fill: #6c7086; -fx-padding: 10;
+                              -fx-background-radius: 8; -fx-font-size: 14;"/>
+    </VBox>
+
+    <Button text="Register" onAction="#handleRegister"
+            style="-fx-background-color: #a6e3a1; -fx-text-fill: #1e1e2e;
+                   -fx-font-weight: bold; -fx-padding: 10 40;
+                   -fx-background-radius: 8; -fx-font-size: 14;"
+            maxWidth="Infinity"/>
+
+    <Button text="← Back to Login" onAction="#handleBackToLogin"
+            style="-fx-background-color: transparent; -fx-text-fill: #89b4fa;
+                   -fx-border-color: #89b4fa; -fx-border-radius: 8;
+                   -fx-padding: 8 40; -fx-font-size: 13;"
+            maxWidth="Infinity"/>
+
+    <Label fx:id="statusLabel"
+           style="-fx-text-fill: #f38ba8; -fx-font-size: 12;"/>
+</VBox>

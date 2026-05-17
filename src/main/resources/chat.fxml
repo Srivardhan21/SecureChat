@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<HBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="securechat.ui.ChatController"
+      style="-fx-background-color: #1e1e2e;"
+      prefWidth="800" prefHeight="550">
+
+    <!-- Left sidebar: contact list -->
+    <VBox prefWidth="200"
+          style="-fx-background-color: #181825; -fx-padding: 10;" spacing="8">
+
+        <Label text="💬 Contacts"
+               style="-fx-text-fill: #cdd6f4; -fx-font-size: 14;
+                      -fx-font-weight: bold;"/>
+
+        <TextField fx:id="newContactField"
+                   promptText="Enter username"
+                   style="-fx-background-color: #313244; -fx-text-fill: white;
+                          -fx-prompt-text-fill: #6c7086; -fx-padding: 6;
+                          -fx-background-radius: 6;"/>
+
+        <Button text="+ Add Contact" onAction="#handleAddContact"
+                style="-fx-background-color: #89b4fa; -fx-text-fill: #1e1e2e;
+                       -fx-font-weight: bold; -fx-padding: 6;
+                       -fx-background-radius: 6; -fx-font-size: 12;"
+                maxWidth="Infinity"/>
+
+        <ListView fx:id="contactList"
+                  VBox.vgrow="ALWAYS"
+                  style="-fx-background-color: #181825;
+                         -fx-text-fill: white;"/>
+    </VBox>
+
+    <!-- Right side: chat area -->
+    <VBox HBox.hgrow="ALWAYS"
+          style="-fx-background-color: #1e1e2e; -fx-padding: 10;"
+          spacing="8">
+
+        <!-- Top bar -->
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label fx:id="chatWithLabel"
+                   text="Select a contact"
+                   style="-fx-text-fill: #cdd6f4; -fx-font-size: 16;
+                          -fx-font-weight: bold;"/>
+            <Label fx:id="warningLabel"
+                   style="-fx-text-fill: #f38ba8; -fx-font-size: 11;"/>
+        </HBox>
+
+        <!-- Message area -->
+        <ScrollPane fx:id="scrollPane"
+                    fitToWidth="true" VBox.vgrow="ALWAYS"
+                    style="-fx-background: #1e1e2e;
+                           -fx-background-color: #1e1e2e;">
+            <VBox fx:id="messageBox" spacing="6"
+                  style="-fx-padding: 10;
+                         -fx-background-color: #1e1e2e;"/>
+        </ScrollPane>
+
+        <!-- Input area -->
+        <HBox spacing="8">
+            <TextField fx:id="messageInput"
+                       promptText="Type a message..."
+                       HBox.hgrow="ALWAYS"
+                       onAction="#handleSend"
+                       style="-fx-background-color: #313244; -fx-text-fill: white;
+                              -fx-prompt-text-fill: #6c7086; -fx-padding: 10;
+                              -fx-background-radius: 8;"/>
+
+            <Button text="Send 🔒" onAction="#handleSend"
+                    style="-fx-background-color: #89b4fa; -fx-text-fill: #1e1e2e;
+                           -fx-font-weight: bold; -fx-padding: 10 16;
+                           -fx-background-radius: 8;"/>
+        </HBox>
+    </VBox>
+</HBox>

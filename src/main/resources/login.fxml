@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="securechat.ui.LoginController"
+      alignment="CENTER" spacing="15"
+      style="-fx-background-color: #1e1e2e; -fx-padding: 40;">
+
+    <Label text="🔒 SecureChat"
+           style="-fx-text-fill: #cdd6f4; -fx-font-size: 28;
+                  -fx-font-weight: bold;"/>
+
+    <Label text="End-to-End Encrypted Messaging"
+           style="-fx-text-fill: #a6adc8; -fx-font-size: 12;"/>
+
+    <VBox spacing="8" style="-fx-padding: 20 0 0 0;">
+        <TextField fx:id="usernameField"
+                   promptText="Username"
+                   style="-fx-background-color: #313244; -fx-text-fill: white;
+                          -fx-prompt-text-fill: #6c7086; -fx-padding: 10;
+                          -fx-background-radius: 8; -fx-font-size: 14;"/>
+
+        <PasswordField fx:id="passwordField"
+                       promptText="Password"
+                       style="-fx-background-color: #313244; -fx-text-fill: white;
+                              -fx-prompt-text-fill: #6c7086; -fx-padding: 10;
+                              -fx-background-radius: 8; -fx-font-size: 14;"/>
+    </VBox>
+
+    <Button text="Login" onAction="#handleLogin"
+            style="-fx-background-color: #89b4fa; -fx-text-fill: #1e1e2e;
+                   -fx-font-weight: bold; -fx-padding: 10 40;
+                   -fx-background-radius: 8; -fx-font-size: 14;"
+            maxWidth="Infinity"/>
+
+    <Button text="Create Account" onAction="#handleRegister"
+            style="-fx-background-color: transparent; -fx-text-fill: #89b4fa;
+                   -fx-border-color: #89b4fa; -fx-border-radius: 8;
+                   -fx-padding: 8 40; -fx-font-size: 13;"
+            maxWidth="Infinity"/>
+
+    <Label fx:id="statusLabel"
+           style="-fx-text-fill: #f38ba8; -fx-font-size: 12;"/>
+</VBox>

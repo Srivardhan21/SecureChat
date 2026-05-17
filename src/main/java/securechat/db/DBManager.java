@@ -109,5 +109,15 @@ public class DBManager {
             ps.executeUpdate();
         } catch (SQLException e) { e.printStackTrace(); }
     }
+    public static void updateDSAKey(String username, String dsaPubKey) {
+        String sql = "UPDATE users SET public_key_dsa = ? WHERE username = ?";
+        try (Connection con = getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, dsaPubKey);
+            ps.setString(2, username);
+            ps.executeUpdate();
+            System.out.println("DSA key updated for: " + username);
+        } catch (SQLException e) { e.printStackTrace(); }
+    }
 
 }

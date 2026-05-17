@@ -91,10 +91,14 @@ public class Client {
         if ("LOGIN_OK".equals(response)) {
             this.username = username;
 
-            // Update DH public key in DB with current session's fresh key
+            // Update both DH and DSA keys in DB with current session keys
             String freshDHPub = Base64.getEncoder()
                     .encodeToString(crypto.getDH().getPublicKey().getEncoded());
+            String freshDSAPub = Base64.getEncoder()
+                    .encodeToString(crypto.getDSA().getPublicKey().getEncoded());
+
             out.println("UPDATE_DH|" + username + "|" + freshDHPub);
+            out.println("UPDATE_DSA|" + username + "|" + freshDSAPub);
 
             System.out.println("Logged in as: " + username);
             return true;
@@ -152,7 +156,6 @@ public class Client {
     }
 
     private void handleIncoming(String line) {
-        // INCOMING|sender|ciphertext|iv|hash|prevHash|signature|senderDHPub|senderDSAPub
         String[] parts = line.split("\\|", -1);
         if (parts.length < 9) return;
 
@@ -168,24 +171,26 @@ public class Client {
         EncryptedMessage msg = new EncryptedMessage(cipher, iv, hash, sig);
 
         try {
-            // If no session, build one directly from keys in the message — no GET_KEY needed
+            // Always decode DSA key from current message — not stored session
+            PublicKey currentDSA = DSASignatureHandler.decodeDSAPublicKey(senderDSAPub);
+
             if (!sessions.containsKey(sender)) {
-                PublicKey theirDH  = DHKeyExchange.decodeDHPublicKey(senderDHPub);
-                PublicKey theirDSA = DSASignatureHandler.decodeDSAPublicKey(senderDSAPub);
+                PublicKey theirDH = DHKeyExchange.decodeDHPublicKey(senderDHPub);
                 crypto.establishSessionKey(theirDH);
-                SecureSession newSession = new SecureSession(theirDSA, prevHash);
+                SecureSession newSession = new SecureSession(currentDSA, prevHash);
                 sessions.put(sender, newSession);
-                System.out.println("🔑 Session established with: " + sender);
+            } else {
+                // Update DSA key in session with current message's key
+                sessions.get(sender).setSenderDSAKey(currentDSA);
             }
 
             SecureSession session = sessions.get(sender);
-
             String plaintext = crypto.decryptMessage(
                     msg, session.getSenderDSAKey(), prevHash
             );
             session.setLastHash(hash);
 
-            System.out.println("📨 [" + sender + "]: " + plaintext);
+            System.out.println("[" + sender + "]: " + plaintext);
             if (messageListener != null)
                 messageListener.onMessage(sender, plaintext);
 
@@ -195,11 +200,6 @@ public class Client {
                 messageListener.onTamperAlert(sender, e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            // Show error in UI
-            if (messageListener != null) {
-                messageListener.onTamperAlert(sender,
-                        "Receive error: " + e.getMessage());
-            }
         }
     }
     public void setMessageListener(MessageListener listener) {

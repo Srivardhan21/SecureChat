@@ -83,6 +83,11 @@ public class ClientHandler implements Runnable {
                     );
                 }
                 break;
+
+            case "UPDATE_DSA":
+                // UPDATE_DSA|username|freshDSAPubKey
+                DBManager.updateDSAKey(parts[1], parts[2]);
+                break;
         }
     }
     public void sendMessage(String msg) { out.println(msg); }

@@ -8,7 +8,30 @@ public class DBManager {
     private static final String PASS = "vardhan";
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASS);
+        String host = System.getenv("MYSQLHOST");
+        String port = System.getenv("MYSQLPORT");
+        String db   = System.getenv("MYSQLDATABASE");
+        String user = System.getenv("MYSQLUSER");
+        String pass = System.getenv("MYSQLPASSWORD");
+
+        String url;
+        if (host != null && db != null) {
+            // Running on Railway
+            url = "jdbc:mysql://" + host + ":" + port + "/" + db
+                    + "?useSSL=false"
+                    + "&allowPublicKeyRetrieval=true"
+                    + "&connectTimeout=10000"
+                    + "&socketTimeout=10000";
+            System.out.println("Connecting to Railway DB: " + url);
+        } else {
+            // Running locally
+            url  = "jdbc:mysql://localhost:3306/securechat";
+            user = "root";
+            pass = "yourpassword";
+            System.out.println("Connecting to local DB");
+        }
+
+        return DriverManager.getConnection(url, user, pass);
     }
 
     // Now stores RSA + DSA + DH public keys
@@ -85,4 +108,5 @@ public class DBManager {
             ps.executeUpdate();
         } catch (SQLException e) { e.printStackTrace(); }
     }
+
 }

@@ -10,13 +10,14 @@ public class DBManager {
     public static Connection getConnection() throws SQLException {
         String host = System.getenv("MYSQLHOST");
         String port = System.getenv("MYSQLPORT");
-        String db   = System.getenv("MYSQLDATABASE");
+        String db   = System.getenv("MYSQLDATABASE") != null
+                ? System.getenv("MYSQLDATABASE") : "railway";
         String user = System.getenv("MYSQLUSER");
         String pass = System.getenv("MYSQLPASSWORD");
 
         String url;
-        if (host != null && db != null) {
-            // Running on Railway
+        if (host != null) {
+            // Running on Railway — only check host
             url = "jdbc:mysql://" + host + ":" + port + "/" + db
                     + "?useSSL=false"
                     + "&allowPublicKeyRetrieval=true"
@@ -27,7 +28,7 @@ public class DBManager {
             // Running locally
             url  = "jdbc:mysql://localhost:3306/securechat";
             user = "root";
-            pass = "yourpassword";
+            pass = "vardhan";
             System.out.println("Connecting to local DB");
         }
 

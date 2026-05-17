@@ -8,8 +8,8 @@ import java.util.*;
 import java.util.concurrent.*;
 
 public class Client {
-    private static final String HOST = "localhost";
-    private static final int PORT = 9090;
+    private static final String HOST = "centerbeam.proxy.rlwy.net";
+    private static final int PORT = 47747;
 
     private Socket socket;
     private PrintWriter out;
